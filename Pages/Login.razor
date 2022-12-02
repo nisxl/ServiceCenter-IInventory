@@ -1,0 +1,64 @@
+﻿@page "/login"
+@inject NavigationManager NavManager
+
+    <div class="login-body">
+        <div class="form-login">
+            <form class="text-center" @onsubmit="LoginHandler">
+                <img class="mb-4" src="/appicon.png" alt="" height="72">
+                <h1 class="h3 mb-3 fw-normal">Please Login</h1>
+
+                <div class="form-floating">
+                    <input type="text" class="form-control username" @bind="loginModel.Username" placeholder="Username" />
+                    <label for="floatingInput">Username</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control password" @bind="loginModel.Password" placeholder="Password" />
+                    <label for="floatingPassword">Password</label>
+                </div>
+                @if (!string.IsNullOrEmpty(errorMessage))
+                {
+                    <div class="alert alert-danger" role="alert">@errorMessage</div>
+                }
+                <button class="w-100 btn btn-lg btn-primary" type="submit">
+                    <span class="oi oi-account-login"></span> Login
+                </button>
+            </form>
+        </div>
+    </div>
+
+@code {
+    [CascadingParameter]
+    public GlobalState state { get; set; }
+    private LoginModel loginModel = new();
+    private string errorMessage = "";
+
+    protected override void OnInitialized()
+    {
+        state.CurrentUser = null;
+        errorMessage = "";
+    }
+
+    private void LoginHandler()
+    {
+        try
+        {
+            errorMessage = "";
+            state.CurrentUser = UsersService.Login(loginModel.Username, loginModel.Password);
+            if (state.CurrentUser != null)
+            {
+                NavManager.NavigateTo("/");
+            }
+        }
+        catch (Exception e)
+        {
+            errorMessage = e.Message;
+            Console.WriteLine(e);
+        }
+    }
+
+    class LoginModel
+    {
+        public string Username { get; set; }
+        public string Password { get; set; }
+    }
+}
