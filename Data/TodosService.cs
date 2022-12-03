@@ -64,6 +64,15 @@ public static class TodosService
         return todos;
     }
 
+    public static void DeleteByUserId(Guid userId)
+    {
+        string todosFilePath = Utils.GetTodosFilePath(userId);
+        if (File.Exists(todosFilePath))
+        {
+            File.Delete(todosFilePath);
+        }
+    }
+
     public static List<TodoItem> Update(Guid userId, Guid id, string taskName, DateTime dueDate, bool isDone)
     {
         List<TodoItem> todos = GetAll(userId);
