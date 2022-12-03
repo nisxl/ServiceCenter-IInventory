@@ -4,32 +4,32 @@ namespace Todo.Data;
 
 public static class UsersService
 {
-    private const string _seedUsername = "admin";
-    private const string _seedPassword = "admin";
+    public const string SeedUsername = "admin";
+    public const string SeedPassword = "admin";
 
-    private static void _saveAll(List<User> users)
+    private static void SaveAll(List<User> users)
     {
-        string _appDataDirectoryPath = Utils.GetAppDirectoryPath();
-        string _appUsersFilePath = Utils.GetAppUsersFilePath();
+        string appDataDirectoryPath = Utils.GetAppDirectoryPath();
+        string appUsersFilePath = Utils.GetAppUsersFilePath();
 
-        if (!Directory.Exists(_appDataDirectoryPath))
+        if (!Directory.Exists(appDataDirectoryPath))
         {
-            Directory.CreateDirectory(_appDataDirectoryPath);
+            Directory.CreateDirectory(appDataDirectoryPath);
         }
 
         var json = JsonSerializer.Serialize(users);
-        File.WriteAllText(_appUsersFilePath, json);
+        File.WriteAllText(appUsersFilePath, json);
     }
 
     public static List<User> GetAll()
     {
-        string _appUsersFilePath = Utils.GetAppUsersFilePath();
-        if (!File.Exists(_appUsersFilePath))
+        string appUsersFilePath = Utils.GetAppUsersFilePath();
+        if (!File.Exists(appUsersFilePath))
         {
             return new List<User>();
         }
 
-        var json = File.ReadAllText(_appUsersFilePath);
+        var json = File.ReadAllText(appUsersFilePath);
 
         return JsonSerializer.Deserialize<List<User>>(json);
     }
@@ -53,7 +53,7 @@ public static class UsersService
                 CreatedBy = userId
             }
         );
-        _saveAll(users);
+        SaveAll(users);
         return users;
     }
 
@@ -63,7 +63,7 @@ public static class UsersService
 
         if (users == null)
         {
-            Create(Guid.Empty, _seedUsername, _seedPassword, Role.Admin);
+            Create(Guid.Empty, SeedUsername, SeedPassword, Role.Admin);
         }
     }
 
@@ -84,7 +84,7 @@ public static class UsersService
         }
 
         users.Remove(user);
-        _saveAll(users);
+        SaveAll(users);
 
         return users;
     }
@@ -128,7 +128,7 @@ public static class UsersService
         }
 
         user.PasswordHash = Utils.HashSecret(newPassword);
-        _saveAll(users);
+        SaveAll(users);
 
         return user;
     }

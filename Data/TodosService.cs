@@ -4,7 +4,7 @@ namespace Todo.Data;
 
 public static class TodosService
 {
-    private static void _saveAll(Guid userId, List<TodoItem> todos)
+    private static void SaveAll(Guid userId, List<TodoItem> todos)
     {
         string appDataDirectoryPath = Utils.GetAppDirectoryPath();
         string todosFilePath = Utils.GetTodosFilePath(userId);
@@ -45,7 +45,7 @@ public static class TodosService
             DueDate = dueDate,
             CreatedBy = userId
         });
-        _saveAll(userId, todos);
+        SaveAll(userId, todos);
         return todos;
     }
 
@@ -60,7 +60,7 @@ public static class TodosService
         }
 
         todos.Remove(todo);
-        _saveAll(userId, todos);
+        SaveAll(userId, todos);
         return todos;
     }
 
@@ -77,7 +77,7 @@ public static class TodosService
         todoToUpdate.TaskName = taskName;
         todoToUpdate.IsDone = isDone;
         todoToUpdate.DueDate = dueDate;
-        _saveAll(userId, todos);
+        SaveAll(userId, todos);
         return todos;
     }
 }
