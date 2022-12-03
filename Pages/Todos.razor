@@ -156,7 +156,7 @@
 
     @if (!string.IsNullOrEmpty(editTodoErrorMessage))
         {
-            <div class="alert alert-danger" role="alert">@editTodoErrorMessage</div>
+            <AlertMessage Type="danger" Message="@editTodoErrorMessage" />
         }
         </ModalDialog>
 }
@@ -167,7 +167,7 @@
     <p>Are you sure you want to delete <strong>@deleteTodo.TaskName</strong> task?</p>
     @if (!string.IsNullOrEmpty(deleteTodoErrorMessage))
         {
-            <div class="alert alert-danger" role="alert">@deleteTodoErrorMessage</div>
+            <AlertMessage Type="danger" Message="@deleteTodoErrorMessage" />
         }
         </ModalDialog>
 }

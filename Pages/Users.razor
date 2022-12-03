@@ -75,7 +75,7 @@ else
         </div>
         @if (!string.IsNullOrEmpty(addUserErrorMessage))
             {
-                <div class="alert alert-danger" role="alert">@addUserErrorMessage</div>
+                <AlertMessage Type="danger" Message="@addUserErrorMessage" />
             }
         </form>
     </ModalDialog>
@@ -87,7 +87,7 @@ else
     <p>Are you sure you want to delete <strong>@deleteUser.Username</strong> user?</p>
     @if (!string.IsNullOrEmpty(deleteUserErrorMessage))
         {
-            <div class="alert alert-danger" role="alert">@deleteUserErrorMessage</div>
+            <AlertMessage Type="danger" Message="@deleteUserErrorMessage" />
         }
     </ModalDialog>
 }
