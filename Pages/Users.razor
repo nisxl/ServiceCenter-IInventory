@@ -10,6 +10,7 @@
     <thead>
         <tr>
             <th>Username</th>
+            <th>Role</th>
             <th>Created At</th>
             <th>CreatedBy</th>
             <th>Actions</th>
@@ -20,6 +21,7 @@
         {
             <tr>
                 <td>@user.Username</td>
+                <td>@user.Role.ToString()</td>
                 <td>@user.CreatedAt.ToString("MMM dd, yyyy h:mm tt")</td>
                 <td>
                     @{
