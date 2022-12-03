@@ -2,11 +2,11 @@
 @inject NavigationManager NavManager
 @code {
     [CascadingParameter]
-    public GlobalState state { get; set; }
+    private GlobalState _globalState { get; set; }
 
     protected override void OnInitialized()
     {
-        if (state.CurrentUser == null)
+        if (_globalState.CurrentUser == null)
         {
             NavManager.NavigateTo("/login");
         }

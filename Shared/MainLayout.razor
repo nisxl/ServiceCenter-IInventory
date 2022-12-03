@@ -3,16 +3,16 @@
 
 <div class="page">
 
-    @if (state.CurrentUser != null)
+    @if (_globalState.CurrentUser != null)
     {
         <div class="sidebar">
-            <NavMenu Username="@state.CurrentUser.Username" UserRole="@state.CurrentUser.Role" LogoutHandler="LogoutHandler" />
+            <NavMenu Username="@_globalState.CurrentUser.Username" UserRole="@_globalState.CurrentUser.Role" LogoutHandler="LogoutHandler" />
         </div>
     }
 
     <main>
         <article class="content px-4">
-            <CascadingValue Value="@state">
+            <CascadingValue Value="@_globalState">
                 @Body
             </CascadingValue>
         </article>
@@ -20,7 +20,7 @@
 </div>
 
 @code {
-    private GlobalState state = new();
+    private GlobalState _globalState = new();
 
     protected override void OnInitialized()
     {
@@ -29,7 +29,7 @@
 
     private void LogoutHandler()
     {
-        state.CurrentUser = null;
+        _globalState.CurrentUser = null;
         NavManager.NavigateTo("/login");
     }
 }

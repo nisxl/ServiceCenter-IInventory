@@ -7,7 +7,7 @@
 	</div>
 </div>
 
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+<div class='@(_collapseNavMenu ? "collapse" : "")' @onclick="ToggleNavMenu">
     <nav class="flex-column">
         <div class="nav-item px-3"><h5 class="text-light">Welcome <strong>@Username</strong>!</h5></div>
         <div class="nav-item px-3">
@@ -44,12 +44,10 @@
     [Parameter]
     public EventCallback LogoutHandler { get; set; }
 
-    private bool collapseNavMenu = true;
-
-    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    private bool _collapseNavMenu { get; set; } = true;
 
     private void ToggleNavMenu()
     {
-        collapseNavMenu = !collapseNavMenu;
+        _collapseNavMenu = !_collapseNavMenu;
     }
 }
