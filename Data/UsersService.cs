@@ -112,6 +112,11 @@ public static class UsersService
 
     public static User ChangePassword(Guid id, string currentPassword, string newPassword)
     {
+        if (currentPassword == newPassword)
+        {
+            throw new Exception("New password must be different from current password.");
+        }
+
         List<User> users = GetAll();
         User user = users.FirstOrDefault(x => x.Id == id);
 
@@ -128,6 +133,7 @@ public static class UsersService
         }
 
         user.PasswordHash = Utils.HashSecret(newPassword);
+        user.HasInitialPassword = false;
         SaveAll(users);
 
         return user;

@@ -6,16 +6,23 @@
             <form class="text-center" @onsubmit="LoginHandler">
                 <img class="mb-4" src="/appicon.png" alt="" height="72">
                 <h1 class="h3 mb-3 fw-normal">Please Login</h1>
+                @if (_showDefaultCredentials)
+                {
+                    <div class="alert alert-info" role="alert">
+                        Username: <strong>@UsersService.SeedUsername</strong><br />
+                        Password: <strong>@UsersService.SeedPassword</strong>
+                    </div>
+                }
 
                 <div class="form-floating">
-                    <input type="text" class="form-control username" @bind="loginModel.Username" placeholder="Username" />
+                    <input type="text" class="form-control username" @bind="_loginModel.Username" placeholder="Username" />
                     <label for="floatingInput">Username</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="password" class="form-control password" @bind="loginModel.Password" placeholder="Password" />
+                    <input type="password" class="form-control password" @bind="_loginModel.Password" placeholder="Password" />
                     <label for="floatingPassword">Password</label>
                 </div>
-                @if (!string.IsNullOrEmpty(errorMessage))
+                @if (!string.IsNullOrEmpty(_errorMessage))
                 {
                     <AlertMessage Type="danger" Message="@_errorMessage" />
                 }
@@ -28,30 +35,36 @@
 
 @code {
     [CascadingParameter]
-    public GlobalState state { get; set; }
-    private LoginModel loginModel = new();
-    private string errorMessage = "";
+    private GlobalState state { get; set; }
+    private bool _showDefaultCredentials { get; set; }
+    private LoginModel _loginModel = new();
+    private string _errorMessage = "";
 
     protected override void OnInitialized()
     {
+        try {
+            var user = UsersService.Login(UsersService.SeedUsername, UsersService.SeedPassword);
+            _showDefaultCredentials = user.HasInitialPassword;
+        } catch {}
+
         state.CurrentUser = null;
-        errorMessage = "";
+        _errorMessage = "";
     }
 
     private void LoginHandler()
     {
         try
         {
-            errorMessage = "";
-            state.CurrentUser = UsersService.Login(loginModel.Username, loginModel.Password);
+            _errorMessage = "";
+            state.CurrentUser = UsersService.Login(_loginModel.Username, _loginModel.Password);
             if (state.CurrentUser != null)
             {
-                NavManager.NavigateTo("/");
+                NavManager.NavigateTo(state.CurrentUser.HasInitialPassword ? "/change-password" : "/");
             }
         }
         catch (Exception e)
         {
-            errorMessage = e.Message;
+            _errorMessage = e.Message;
             Console.WriteLine(e);
         }
     }
