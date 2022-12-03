@@ -21,7 +21,6 @@
 
 @code {
     private GlobalState state = new();
-    private bool openDropdown = false;
 
     protected override void OnInitialized()
     {
@@ -32,15 +31,5 @@
     {
         state.CurrentUser = null;
         NavManager.NavigateTo("/login");
-    }
-
-    private void ToggleDropdown()
-    {
-        openDropdown = !openDropdown;
-    }
-
-    private void HideDropdown()
-    {
-        openDropdown = false;
     }
 }
